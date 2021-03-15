@@ -40,6 +40,9 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="sub_item.h" />
+		<Unit filename="sub_struct.h" />
+		<Unit filename="sub_sys.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
