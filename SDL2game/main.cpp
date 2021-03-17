@@ -7,39 +7,38 @@
 
 using namespace std;
 
-void gameover(bool &condi, SDL_Renderer* renderer, SDL_Window* window)
+
+void gameover(bool &isend, SDL_Renderer* renderer, SDL_Window* window)
 {
-    while(condi)
+    while(isend)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         SDL_RenderPresent(renderer);
 
-        SDL_Event restart;
-        if (SDL_WaitEvent(&restart) == 0) continue;
-        if (restart.type == SDL_QUIT) break;
-        if (restart.type == SDL_KEYDOWN)
+        SDL_Event start;
+        if (SDL_WaitEvent(&start) == 0) continue;
+        if (start.type == SDL_QUIT) break;
+        if (start.type == SDL_KEYDOWN)
         {
-        	switch (restart.key.keysym.sym)
+        	switch (start.key.keysym.sym)
             {
                 case SDLK_n:
         		    quitSDL(window, renderer);
         		    break;
         		case SDLK_y:
-                    condi = false;
+                    isend = false;
                     break;
             }
         }
     }
 }
 
-int main(int argc, char* argv[])
-{
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    initSDL(window, renderer);
 
+void gamerunning(bool &isend, SDL_Renderer* renderer, SDL_Window* window)
+{
     SDL_Event e;
+
     Player p1;
     p1.scrheight = SCREEN_HEIGHT;
     p1.scrwidth = SCREEN_WIDTH;
@@ -47,10 +46,8 @@ int main(int argc, char* argv[])
     Rain rainlst[rand()%40+20];
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
     {
-        rainlst[i].x = rand()%796+5;
+        rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
     }
-
-    bool isend = false;
 
     while (isend == false)
     {
@@ -121,6 +118,51 @@ int main(int argc, char* argv[])
                 isend = true;
             }
         }
+    }
+}
+
+
+void gamebegin(bool &isend, SDL_Renderer* renderer, SDL_Window* window)
+{
+    while(isend)
+    {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+
+        SDL_Event start;
+        if (SDL_WaitEvent(&start) == 0) continue;
+        if (start.type == SDL_QUIT) break;
+        if (start.type == SDL_KEYDOWN)
+        {
+        	switch (start.key.keysym.sym)
+            {
+                case SDLK_n:
+        		    quitSDL(window, renderer);
+        		    break;
+        		case SDLK_y:
+                    isend = false;
+                    break;
+            }
+        }
+    }
+}
+
+
+int main(int argc, char* argv[])
+{
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    initSDL(window, renderer);
+
+    bool isend = true;
+
+    gamebegin(isend, renderer, window);
+
+    while (isend == false)
+    {
+        gamerunning(isend, renderer, window);
+
         gameover(isend, renderer, window);
     }
 

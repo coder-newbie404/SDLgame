@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1615799777 source:d:\code\codeblock\project\game\sdl2game\main.cpp
+1615953201 source:d:\code\codeblock\project\game\sdl2game\main.cpp
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -762,12 +762,12 @@
 	<SDL.h>
 	<cstring>
 
-1615799325 d:\code\codeblock\project\game\sdl2game\sub_struct.h
+1615802435 d:\code\codeblock\project\game\sdl2game\sub_struct.h
 	<iostream>
 	<SDL.h>
 	<cstring>
 
-1615799257 d:\code\codeblock\project\game\sdl2game\sub_sys.h
+1615803038 d:\code\codeblock\project\game\sdl2game\sub_sys.h
 	<iostream>
 	<SDL.h>
 	<cstring>

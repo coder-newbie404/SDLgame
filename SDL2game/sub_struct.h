@@ -76,7 +76,7 @@ struct Rain
         filled_rect.y=y;
         filled_rect.w=box_size;
         filled_rect.h=box_size;
-        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &filled_rect);
     }
 
