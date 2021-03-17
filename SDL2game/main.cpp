@@ -7,6 +7,31 @@
 
 using namespace std;
 
+void gameover(bool &condi, SDL_Renderer* renderer, SDL_Window* window)
+{
+    while(condi)
+    {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+
+        SDL_Event restart;
+        if (SDL_WaitEvent(&restart) == 0) continue;
+        if (restart.type == SDL_QUIT) break;
+        if (restart.type == SDL_KEYDOWN)
+        {
+        	switch (restart.key.keysym.sym)
+            {
+                case SDLK_n:
+        		    quitSDL(window, renderer);
+        		    break;
+        		case SDLK_y:
+                    condi = false;
+                    break;
+            }
+        }
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -18,13 +43,16 @@ int main(int argc, char* argv[])
     Player p1;
     p1.scrheight = SCREEN_HEIGHT;
     p1.scrwidth = SCREEN_WIDTH;
+
     Rain rainlst[rand()%40+20];
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
     {
         rainlst[i].x = rand()%796+5;
     }
 
-    while(true)
+    bool isend = false;
+
+    while (isend == false)
     {
         SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
         SDL_RenderClear(renderer);
@@ -46,8 +74,6 @@ int main(int argc, char* argv[])
         }
 
         SDL_RenderPresent(renderer);
-        SDL_RenderPresent(renderer);
-
 
 
         for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
@@ -82,7 +108,6 @@ int main(int argc, char* argv[])
 			}
         }
 
-        bool isend = false;
         for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
         {
             if (p1.x >= rainlst[i].x && p1.y >= rainlst[i].y && p1.x < rainlst[i].x + rainlst[i].box_size && p1.y < rainlst[i].y + rainlst[i].box_size)
@@ -96,8 +121,7 @@ int main(int argc, char* argv[])
                 isend = true;
             }
         }
-        if (isend == true)
-            break;
+        gameover(isend, renderer, window);
     }
 
     quitSDL(window, renderer);
