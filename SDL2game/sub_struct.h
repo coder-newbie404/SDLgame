@@ -2,11 +2,30 @@
 #include <SDL.h>
 #include <cstring>
 
+struct Button
+{
+    int x;
+    int y;
+    int w = 100;
+    int h = 60;
+    void render(SDL_Renderer* renderer)
+    {
+        SDL_Rect filled_rect;
+        filled_rect.x=x;
+        filled_rect.y=y;
+        filled_rect.w=100;
+        filled_rect.h=60;
+        SDL_SetRenderDrawColor(renderer, 225, 204, 0, 255);
+        SDL_RenderFillRect(renderer, &filled_rect);
+    }
+};
+
+
 struct Player
 {
     int scrwidth;
     int scrheight;
-    int x = 500;
+    int x = 200;
     int y = 700;
     int xdr = 5;
     int ydr = 0;
@@ -65,7 +84,7 @@ struct Player
 struct Rain
 {
     int x;
-    int y = 5;
+    int y = 0;
     int xdr = 0;
     int ydr = rand()%10+5;
     int box_size = 10;
@@ -90,3 +109,4 @@ struct Rain
         return (minx<=x && miny<=y && maxx>=x+box_size && maxy>=y+box_size);
     }
 };
+
