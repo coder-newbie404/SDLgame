@@ -7,8 +7,10 @@
 
 using namespace std;
 
+SDL_Window* window;
+SDL_Renderer* renderer;
 
-void gamebegin(Button start_b, Button exit_b, bool &isend, SDL_Renderer* renderer, SDL_Window* window)
+void gamebegin(Button start_b, Button exit_b, bool &isend)
 {
     while(isend)
     {
@@ -50,8 +52,10 @@ void gamebegin(Button start_b, Button exit_b, bool &isend, SDL_Renderer* rendere
 }
 
 
-void gamerunning(Button start_b, Button exit_b, bool &ispause, bool &isend, SDL_Renderer* renderer, SDL_Window* window)
+void gamerunning(Button start_b, Button exit_b, bool &isend)
 {
+    bool ispause = false;
+
     SDL_Event e;
 
     Player p1;
@@ -62,38 +66,56 @@ void gamerunning(Button start_b, Button exit_b, bool &ispause, bool &isend, SDL_
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
     {
         rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
+        rainlst[i].y = rand()%(SCREEN_HEIGHT - rainlst[i].box_size);
+        rainlst[i].sub = rand()%2+1;
     }
 
     while (isend == false)
     {
+        if (ispause)
         {
+            SDL_SetRenderDrawColor(renderer, 150, 0, 255, 255);
+            SDL_RenderClear(renderer);
 
+            start_b.render(renderer);
+            exit_b.render(renderer);
+
+            SDL_RenderPresent(renderer);
+
+            SDL_WaitEventTimeout(&e, 10);
+
+            if (e.type == SDL_QUIT)
+            {
+                quitSDL(window, renderer);
+                break;
+            }
+
+            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
+                ispause = false;
+        }
+        else
+        {
             SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
             SDL_RenderClear(renderer);
 
-            if (ispause)
-            {
-                start_b.render(renderer);
-                exit_b.render(renderer);
-            }
-            else
-            {
-                p1.render(renderer);
 
-                for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
+            p1.render(renderer);
+
+            for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
+            {
+                if (rainlst[i].inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
                 {
-                    if (rainlst[i].inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
-                    {
-                        rainlst[i].render(renderer);
-                    }
-                    else
-                    {
-                        rainlst[i].x = rand()%796+5;
-                        rainlst[i].y = 0;
-                        rainlst[i].render(renderer);
-                    }
+                    rainlst[i].render(renderer);
+                }
+                else
+                {
+                    rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
+                    rainlst[i].y = rand()%(SCREEN_HEIGHT - rainlst[i].box_size);
+                    rainlst[i].sub = rand()%2+1;
+                    rainlst[i].render(renderer);
                 }
             }
+
 
             SDL_RenderPresent(renderer);
 
@@ -114,8 +136,6 @@ void gamerunning(Button start_b, Button exit_b, bool &ispause, bool &isend, SDL_
                 break;
             }
 
-            if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_SPACE)
-                    ispause = false;
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
                     ispause = true;
 
@@ -153,12 +173,15 @@ void gamerunning(Button start_b, Button exit_b, bool &ispause, bool &isend, SDL_
                     isend = true;
                 }
             }
+
+            if (p1.x == 5 or p1.x + p1.box_size == SCREEN_WIDTH - 5 or p1.y == 5 or p1.y + p1.box_size == SCREEN_HEIGHT - 5)
+                isend = true;
         }
     }
 }
 
 
-void gameover(Button start_b, Button exit_b, bool &isend, SDL_Renderer* renderer, SDL_Window* window)
+void gameover(Button start_b, Button exit_b, bool &isend)
 {
 
     while(isend)
@@ -174,6 +197,11 @@ void gameover(Button start_b, Button exit_b, bool &isend, SDL_Renderer* renderer
         if (SDL_WaitEvent(&start) == 0) continue;
         if (start.type == SDL_QUIT) break;
         if (start.type == SDL_KEYDOWN && start.key.keysym.sym == SDLK_ESCAPE) break;
+        if (start.type == SDL_KEYDOWN && start.key.keysym.sym == SDLK_r)
+        {
+            isend = false;
+            break;
+        }
         if (start.type == SDL_MOUSEBUTTONDOWN)
         {
             int pos_x = start.button.x;
@@ -200,31 +228,21 @@ void gameover(Button start_b, Button exit_b, bool &isend, SDL_Renderer* renderer
 
 int main(int argc, char* argv[])
 {
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+
     initSDL(window, renderer);
 
-    Button start_b;
-    Button exit_b;
-
-    start_b.x = 200;
-    start_b.y = 370;
-
-    exit_b.x = 700;
-    exit_b.y = 370;
-
-
+    Button start_b(200, 370);
+    Button exit_b(700, 370);
 
     bool isend = true;
-    bool ispause = false;
 
-    gamebegin(start_b, exit_b, isend, renderer, window);
+    gamebegin(start_b, exit_b, isend);
 
     while (isend == false)
     {
-        gamerunning(start_b, exit_b, ispause, isend, renderer, window);
+        gamerunning(start_b, exit_b, isend);
 
-        gameover(start_b, exit_b, isend, renderer, window);
+        gameover(start_b, exit_b, isend);
     }
 
     return 0;

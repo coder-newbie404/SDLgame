@@ -8,6 +8,11 @@ struct Button
     int y;
     int w = 100;
     int h = 60;
+    Button(int _x, int _y)
+    {
+        x = _x;
+        y = _y;
+    }
     void render(SDL_Renderer* renderer)
     {
         SDL_Rect filled_rect;
@@ -85,7 +90,8 @@ struct Rain
 {
     int x;
     int y = 0;
-    int xdr = 0;
+    int sub;
+    int xdr = rand()%10+5;
     int ydr = rand()%10+5;
     int box_size = 10;
     void render(SDL_Renderer* renderer)
@@ -101,8 +107,16 @@ struct Rain
 
     void move()
     {
-        x+=xdr;
-        y+=ydr;
+        if (sub == 2)
+        {
+            x+=xdr;
+            y+=ydr;
+        }
+        else
+        {
+            x-=xdr;
+            y+=ydr;
+        }
     }
     bool inside(int minx, int miny, int maxx, int maxy)
     {
