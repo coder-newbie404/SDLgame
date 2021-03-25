@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <cstring>
+#include <cmath>
 
 struct Button
 {
@@ -124,3 +125,78 @@ struct Rain
     }
 };
 
+struct Horming
+{
+    int x;
+    int y;
+    int xdir;
+    int ydir;
+    int box_size = 10;
+    void render(SDL_Renderer* renderer)
+    {
+        SDL_Rect filled_rect;
+        filled_rect.x=x;
+        filled_rect.y=y;
+        filled_rect.w=box_size;
+        filled_rect.h=box_size;
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &filled_rect);
+    }
+
+    void horming_move(Player p)
+    {
+        int xdis = abs(x - p.x);
+        int ydis = abs(y - p.y);
+        int b = (5*ydis) / sqrt(xdis * xdis + ydis * ydis);
+        int a = sqrt(25 - b * b);
+        if (x > p.x)
+            x -= a;
+        else if (x < p.x)
+            x += a;
+        else
+            x = 0;
+        if (y > p.y)
+            y -= b;
+        else if (y < p.y)
+            y += b;
+        else
+            y = 0;
+    }
+    bool inside(int minx, int miny, int maxx, int maxy)
+    {
+        return (minx<=x && miny<=y && maxx>=x+box_size && maxy>=y+box_size);
+    }
+};
+
+struct Sniper
+{
+    int x;
+    int y = 5;
+    int box_size = 10;
+    void render(SDL_Renderer* renderer)
+    {
+        SDL_Rect warning;
+        warning.x=x;
+        warning.y=5;
+        warning.w=10;
+        warning.h=10;
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+        SDL_RenderFillRect(renderer, &warning);
+
+        SDL_Rect filled_rect;
+        filled_rect.x=x;
+        filled_rect.y=y;
+        filled_rect.w=box_size;
+        filled_rect.h=50;
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &filled_rect);
+    }
+    void sniper_move()
+    {
+        y += 50;
+    }
+    bool inside(int minx, int miny, int maxx, int maxy)
+    {
+        return (minx<=x && miny<=y && maxx>=x+box_size && maxy>=y+box_size);
+    }
+};

@@ -62,12 +62,11 @@ void gamerunning(Button start_b, Button exit_b, bool &isend)
     p1.scrheight = SCREEN_HEIGHT;
     p1.scrwidth = SCREEN_WIDTH;
 
-    Rain rainlst[rand()%40+20];
+    Sniper rainlst[20];
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
     {
         rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
-        rainlst[i].y = rand()%(SCREEN_HEIGHT - rainlst[i].box_size);
-        rainlst[i].sub = rand()%2+1;
+        rainlst[i].y = 5;
     }
 
     while (isend == false)
@@ -110,8 +109,7 @@ void gamerunning(Button start_b, Button exit_b, bool &isend)
                 else
                 {
                     rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
-                    rainlst[i].y = rand()%(SCREEN_HEIGHT - rainlst[i].box_size);
-                    rainlst[i].sub = rand()%2+1;
+                    rainlst[i].y = 5;
                     rainlst[i].render(renderer);
                 }
             }
@@ -124,7 +122,7 @@ void gamerunning(Button start_b, Button exit_b, bool &isend)
             {
                 for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
                 {
-                    rainlst[i].move();
+                    rainlst[i].sniper_move();
                 }
             }
 
