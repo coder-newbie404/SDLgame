@@ -4,18 +4,29 @@
 #include "sub_item.h"
 #include "sub_struct.h"
 #include "sub_sys.h"
+#include "BaseTexture.h"
 
 using namespace std;
 
 SDL_Window* window;
 SDL_Renderer* renderer;
+BaseTexture gBackground;
+
+void LoadBackground()
+{
+    gBackground.LoadFromFile("D:/SDLgame-main/SDL2game/background.bmp",renderer);
+}
 
 void gamebegin(Button start_b, Button exit_b, bool &isend)
 {
+    LoadBackground();
     while(isend)
     {
-        SDL_SetRenderDrawColor(renderer, 204, 51, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
+
+        gBackground.Render(renderer, 0, 0);
+
         start_b.render(renderer);
         exit_b.render(renderer);
 
@@ -62,7 +73,7 @@ void gamerunning(Button start_b, Button exit_b, bool &isend)
     p1.scrheight = SCREEN_HEIGHT;
     p1.scrwidth = SCREEN_WIDTH;
 
-    Sniper rainlst[20];
+    Horming rainlst[20];
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
     {
         rainlst[i].x = rand()%(SCREEN_WIDTH - rainlst[i].box_size);
@@ -122,7 +133,7 @@ void gamerunning(Button start_b, Button exit_b, bool &isend)
             {
                 for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
                 {
-                    rainlst[i].sniper_move();
+                    rainlst[i].horming_move(p1);
                 }
             }
 
