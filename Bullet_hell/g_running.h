@@ -5,6 +5,6 @@
 #include <SDL.h>
 #include <cstring>
 
-void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend);
+void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore);
 
 #endif

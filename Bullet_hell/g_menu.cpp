@@ -3,7 +3,7 @@
 #include <cstring>
 #include "g_menu.h"
 #include "o_button.h"
-#include "sys.h"
+#include "general_helper.h"
 
 using namespace std;
 

@@ -3,7 +3,9 @@
 #include <cstring>
 #include "g_restart.h"
 #include "o_button.h"
-#include "sys.h"
+#include "score.h"
+#include "Ltexture.h"
+#include "general_helper.h"
 
 
 using namespace std;
@@ -15,8 +17,10 @@ SDL_Surface* i_bkmenu = IMG_Load("res/backmenu.png");
 SDL_Surface* i_hover = IMG_Load("res/a.png");
 
 
-void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend)
+void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore)
 {
+    TTF_Font* gFont = TTF_OpenFont( "lazy.ttf", 28 );
+
     Button restart_b(180, 700, 702, 53);
     restart_b.image = SDL_CreateTextureFromSurface(renderer, i_restart);
     Button gexit_b(1350, 700, 210, 72);
@@ -25,10 +29,20 @@ void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend)
     bmn.image = SDL_CreateTextureFromSurface(renderer, i_bkmenu);
     SDL_Texture* dea = SDL_CreateTextureFromSurface(renderer, deascene);
     SDL_Texture* atext = SDL_CreateTextureFromSurface(renderer, i_hover);
+
+    stringstream timeText;
+    LTexture TimeTextTexture(renderer, gFont);
+    SDL_Color textColor = { 0, 0, 0, 255 };
+    timeText.str( "" );
+    timeText << "FINAL SCORE:  " << tscore;
+    TimeTextTexture.loadFromRenderedText( timeText.str().c_str(), textColor );
+
+
     while(isend)
     {
         SDL_RenderClear(renderer);
         rendersub(renderer, dea, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        TimeTextTexture.render( 0, 0);
 
         SDL_Event start;
         if (start.type == SDL_MOUSEMOTION)

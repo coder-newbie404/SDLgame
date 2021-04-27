@@ -7,6 +7,6 @@
 
 using namespace std;
 
-void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend);
+void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore);
 
 #endif

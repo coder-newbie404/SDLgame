@@ -19,6 +19,7 @@ int main(int argc, char* argv[])
         printf("init window fail");
 
     int isend = 0;
+    int tscore = 0;
 
     while (true)
     {
@@ -28,10 +29,10 @@ int main(int argc, char* argv[])
                 gamebegin(window, renderer, isend);
                 break;
             case 1:
-                gamerunning(window, renderer, isend);
+                gamerunning(window, renderer, isend, tscore);
                 break;
             case 2:
-                gameover(window, renderer, isend);
+                gameover(window, renderer, isend, tscore);
                 break;
         }
     }

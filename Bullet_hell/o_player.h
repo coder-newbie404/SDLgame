@@ -21,7 +21,7 @@ struct Player
 
     Player(int _x, int _scrheight, int _scrwidth)
     {
-        x = _x;
+        x = _scrwidth / 2;
         scrheight = _scrheight;
         scrwidth = _scrwidth;
     }

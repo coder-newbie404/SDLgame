@@ -14,7 +14,7 @@ using namespace std;
 
 const int SCREEN_WIDTH = 1600;
 const int SCREEN_HEIGHT = 800;
-const string WINDOW_TITLE = "Tiny Game!";
+const string WINDOW_TITLE = "Bullet Hell";
 
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer);
 
