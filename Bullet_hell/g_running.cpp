@@ -30,6 +30,7 @@ SDL_Surface* i_3 = IMG_Load("res/3.png");
 SDL_Surface* i_2 = IMG_Load("res/2.png");
 SDL_Surface* i_1 = IMG_Load("res/1.png");
 SDL_Surface* i_paused = IMG_Load("res/paused.png");
+SDL_Surface* i_type3 = IMG_Load("res/type3.png");
 
 
 void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore)
@@ -43,6 +44,8 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
     Player p1(700, SCREEN_HEIGHT, SCREEN_WIDTH);
     Bullet rainlst[rand()%50 + 10];
     Type3 firstshot(rand()%(SCREEN_WIDTH - firstshot.blst[0].w), rand()%(SCREEN_HEIGHT - firstshot.blst[0].h));
+    Type3 secondshot(rand()%(SCREEN_WIDTH - secondshot.blst[0].w), rand()%(SCREEN_HEIGHT - secondshot.blst[0].h));
+    Type3 thirdshot(rand()%(SCREEN_WIDTH - thirdshot.blst[0].w), rand()%(SCREEN_HEIGHT - thirdshot.blst[0].h));
     Horming horm[8];
 
     LTimer timer;
@@ -68,7 +71,9 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
 
     for (int i = 0; i < 16; i++)
     {
-        firstshot.blst[i].image = SDL_CreateTextureFromSurface(renderer, i_bul);
+        firstshot.blst[i].image = SDL_CreateTextureFromSurface(renderer, i_type3);
+        secondshot.blst[i].image = SDL_CreateTextureFromSurface(renderer, i_type3);
+        thirdshot.blst[i].image = SDL_CreateTextureFromSurface(renderer, i_type3);
     }
 
     for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
@@ -224,7 +229,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     rainlst[i].move();
                 }
             }
-            if (timer.getTicks() > 5000)
+            if (timer.getTicks() > 4000)
             {
                 if (firstshot.inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
                 {
@@ -234,8 +239,28 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                 else
                     firstshot.reset();
             }
-
+            if (timer.getTicks() > 7000)
+            {
+                if (secondshot.inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
+                {
+                    secondshot.render(renderer);
+                    secondshot.type3_move();
+                }
+                else
+                    secondshot.reset();
+            }
             if (timer.getTicks() > 10000)
+            {
+                if (thirdshot.inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
+                {
+                    thirdshot.render(renderer);
+                    thirdshot.type3_move();
+                }
+                else
+                    thirdshot.reset();
+            }
+
+            if (timer.getTicks() > 15000)
             {
                 for (int i = 0; i < 8; i++)
                 {
@@ -288,10 +313,12 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     endgame = true;
                 }
             }
-            if (firstshot.dead(p1))
+
+            if (firstshot.dead(p1) || secondshot.dead(p1) || thirdshot.dead(p1))
             {
                 endgame = true;
             }
+
             for (int i = 0; i < 8; i++)
             {
                 if (horm[i].dead(p1))
@@ -299,6 +326,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     endgame = true;
                 }
             }
+
             if (endgame)
             {
                 isend = 2;

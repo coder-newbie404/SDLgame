@@ -59,6 +59,8 @@ void Type3::render(SDL_Renderer* renderer)
 {
     for (int i = 0; i < 16; i++)
     {
+        blst[i].w = 30;
+        blst[i].h = 30;
         blst[i].render(renderer);
     }
 }
