@@ -27,6 +27,8 @@ struct Bullet
     void move();
 
     bool inside(int minx, int miny, int maxx, int maxy);
+
+    bool dead(Player p1);
 };
 
 #endif

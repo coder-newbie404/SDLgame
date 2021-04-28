@@ -83,3 +83,11 @@ void Type3::reset()
         blst[i].y = b0;
     }
 }
+
+bool Type3::dead(Player p1)
+{
+    for (int i = 0; i < 16; i++)
+        if (blst[i].dead(p1))
+            return true;
+    return false;
+}

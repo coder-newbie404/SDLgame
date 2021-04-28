@@ -26,18 +26,21 @@ SDL_Surface* i_resu = IMG_Load("res/resume.png");
 SDL_Surface* i_qui = IMG_Load("res/quit.png");
 SDL_Surface* i_restr = IMG_Load("res/restart.png");
 SDL_Surface* i_red = IMG_Load("res/a.png");
-
+SDL_Surface* i_3 = IMG_Load("res/3.png");
+SDL_Surface* i_2 = IMG_Load("res/2.png");
+SDL_Surface* i_1 = IMG_Load("res/1.png");
+SDL_Surface* i_paused = IMG_Load("res/paused.png");
 
 
 void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore)
 {
-    TTF_Font* gFont = TTF_OpenFont( "lazy.ttf", 28 );
+    TTF_Font* gFont = TTF_OpenFont( "res/BlackOpsOne-Regular.ttf", 28 );
 
 
-    Button remuse_b(SCREEN_WIDTH - 200, 370, 120, 60);
-    Button restart(SCREEN_WIDTH - 200, 570, 120, 60);
-    Button bkmn(SCREEN_WIDTH - 200, 770, 120, 60);
-    Player p1(200, SCREEN_HEIGHT, SCREEN_WIDTH);
+    Button remuse_b(SCREEN_WIDTH - 200, 370, 150, 60);
+    Button restart(SCREEN_WIDTH - 200, 500, 150, 60);
+    Button bkmn(SCREEN_WIDTH - 200, 630, 150, 60);
+    Player p1(700, SCREEN_HEIGHT, SCREEN_WIDTH);
     Bullet rainlst[rand()%50 + 10];
     Type3 firstshot(rand()%(SCREEN_WIDTH - firstshot.blst[0].w), rand()%(SCREEN_HEIGHT - firstshot.blst[0].h));
     Horming horm[8];
@@ -45,7 +48,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
     LTimer timer;
     stringstream timeText;
     LTexture TimeTextTexture(renderer, gFont);
-    SDL_Color textColor = { 0, 0, 0, 255 };
+    SDL_Color textColor = {53, 49, 133, 255};
 
     bool ispause = false;
     SDL_Texture* preloading;
@@ -60,6 +63,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
     SDL_Texture* bgr = SDL_CreateTextureFromSurface(renderer, i_bgr);
     SDL_Texture* pau = SDL_CreateTextureFromSurface(renderer, i_pau);
     SDL_Texture* atext = SDL_CreateTextureFromSurface(renderer, i_red);
+    SDL_Texture* paused = SDL_CreateTextureFromSurface(renderer, i_paused);
     p1.image = SDL_CreateTextureFromSurface(renderer, i_pla);
 
     for (int i = 0; i < 16; i++)
@@ -93,13 +97,13 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
         switch (i)
         {
             case 765:
-                preloading = SDL_CreateTextureFromSurface(renderer, i_resu);
+                preloading = SDL_CreateTextureFromSurface(renderer, i_3);
                 break;
             case 510:
-                preloading = SDL_CreateTextureFromSurface(renderer, i_qui);
+                preloading = SDL_CreateTextureFromSurface(renderer, i_2);
                 break;
             case 255:
-                preloading = SDL_CreateTextureFromSurface(renderer, i_restr);
+                preloading = SDL_CreateTextureFromSurface(renderer, i_1);
                 break;
         }
         alpha -= 5;
@@ -107,9 +111,13 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
         SDL_RenderClear(renderer);
 
         rendersub(renderer, bgr, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        rendersub(renderer, preloading, SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT/2 - 25, 100, 50);
+        rendersub(renderer, preloading, SCREEN_WIDTH/2 - 36, SCREEN_HEIGHT/2 - 50, 72, 100);
+        p1.render(renderer);
 
         SDL_RenderPresent(renderer);
+        SDL_WaitEventTimeout(&e, 10);
+        if (e.type == SDL_QUIT)
+                quitSDL(window, renderer);
     }
 
 
@@ -121,6 +129,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
             SDL_RenderClear(renderer);
 
             rendersub(renderer, pau, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            rendersub(renderer, paused, 50, 50, 406, 106);
             if (e.type == SDL_MOUSEMOTION)
             {
                 int pos_x = e.button.x + bkmn.x;
@@ -215,7 +224,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     rainlst[i].move();
                 }
             }
-            if (timer.getTicks() > 3000)
+            if (timer.getTicks() > 5000)
             {
                 if (firstshot.inside(0,0,SCREEN_WIDTH,SCREEN_HEIGHT))
                 {
@@ -226,7 +235,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     firstshot.reset();
             }
 
-            if (timer.getTicks() > 6000)
+            if (timer.getTicks() > 10000)
             {
                 for (int i = 0; i < 8; i++)
                 {
@@ -270,39 +279,31 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     }
                 }
             }
-
+            bool endgame = false;
             for (int i = 0; i < sizeof(rainlst) / sizeof(rainlst[0]); i++)
             {
                 Bullet a = rainlst[i];
-                Player p = p1;
-                if ((a.x > p1.x && a.x < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size) || (a.x + a.w > p1.x && a.x + a.w < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size))
+                if (a.dead(p1))
                 {
-                    isend = 2;
-                    tscore = timer.getTicks();
-                    timer.stop();
+                    endgame = true;
                 }
             }
-            for (int i = 0; i < 16; i++)
+            if (firstshot.dead(p1))
             {
-                Bullet a = firstshot.blst[i];
-                Player p = p1;
-                if ((a.x > p1.x && a.x < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size) || (a.x + a.w > p1.x && a.x + a.w < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size))
-                {
-                    isend = 2;
-                    tscore = timer.getTicks();
-                    timer.stop();
-                }
+                endgame = true;
             }
             for (int i = 0; i < 8; i++)
             {
-                Horming a = horm[i];
-                Player p = p1;
-                if ((a.x > p1.x && a.x < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size) || (a.x + a.w > p1.x && a.x + a.w < p1.x + p1.box_size && a.y + a.h > p.y && a.y + a.h < p.y + p.box_size))
+                if (horm[i].dead(p1))
                 {
-                    isend = 2;
-                    tscore = timer.getTicks();
-                    timer.stop();
+                    endgame = true;
                 }
+            }
+            if (endgame)
+            {
+                isend = 2;
+                tscore = timer.getTicks();
+                timer.stop();
             }
         }
     }

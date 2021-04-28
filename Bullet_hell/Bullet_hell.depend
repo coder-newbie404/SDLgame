@@ -383,7 +383,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1619431182 source:d:\code\codeblock\project\game\bullet_hell\b_horming.cpp
+1619577473 source:d:\code\codeblock\project\game\bullet_hell\b_horming.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -391,7 +391,7 @@
 	<cmath>
 	"b_horming.h"
 
-1619431846 source:d:\code\codeblock\project\game\bullet_hell\b_normal.cpp
+1619577151 source:d:\code\codeblock\project\game\bullet_hell\b_normal.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -408,7 +408,7 @@
 
 1618194455 source:d:\code\codeblock\project\game\bullet_hell\g_pause.cpp
 
-1619509974 source:d:\code\codeblock\project\game\bullet_hell\g_restart.cpp
+1619580725 source:d:\code\codeblock\project\game\bullet_hell\g_restart.cpp
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -418,7 +418,7 @@
 	"Ltexture.h"
 	"general_helper.h"
 
-1619510773 source:d:\code\codeblock\project\game\bullet_hell\g_running.cpp
+1619580496 source:d:\code\codeblock\project\game\bullet_hell\g_running.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -463,7 +463,7 @@
 	"b_normal.h"
 	"o_player.h"
 
-1619431846 d:\code\codeblock\project\game\bullet_hell\b_normal.h
+1619577131 d:\code\codeblock\project\game\bullet_hell\b_normal.h
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -488,7 +488,7 @@
 	<SDL.h>
 	<cstring>
 
-1619508325 d:\code\codeblock\project\game\bullet_hell\o_player.h
+1619576342 d:\code\codeblock\project\game\bullet_hell\o_player.h
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -498,7 +498,7 @@
 	<SDL.h>
 	<cstring>
 
-1619431013 d:\code\codeblock\project\game\bullet_hell\b_horming.h
+1619577473 d:\code\codeblock\project\game\bullet_hell\b_horming.h
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -968,14 +968,14 @@
 	<string>
 	<sstream>
 
-1619344781 source:d:\code\codeblock\project\game\bullet_hell\b_type3.cpp
+1619577375 source:d:\code\codeblock\project\game\bullet_hell\b_type3.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	<cstring>
 	"b_type3.h"
 
-1619343867 d:\code\codeblock\project\game\bullet_hell\b_type3.h
+1619577375 d:\code\codeblock\project\game\bullet_hell\b_type3.h
 	<iostream>
 	<SDL.h>
 	<cstring>
@@ -1359,6 +1359,11 @@
 
 1608572889 d:\code\codeblock\project\game\bullet_hell\lib\sdl2_devel-2.0.5-mingw.tar\sdl2-devel-2.0.14-mingw\include\sdl2\sdl_vulkan.h
 	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1547322290 d:\code\codeblock\project\game\bullet_hell\lib\sdl2_devel-2.0.5-mingw.tar\sdl2_ttf-devel-2.0.15-mingw\include\sdl2\sdl_ttf.h
+	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
 

@@ -49,3 +49,10 @@ void Horming::horming_move(Player p)
             fuel = 200;
     }
 }
+
+bool Horming::dead(Player p1)
+{
+    if ((x > p1.x && x < p1.x + p1.box_size && y + h > p1.y && y + h < p1.y + p1.box_size) || (x + w > p1.x && x + w < p1.x + p1.box_size && y + h > p1.y && y + h < p1.y + p1.box_size))
+        return true;
+    return false;
+}

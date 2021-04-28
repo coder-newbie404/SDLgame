@@ -12,16 +12,17 @@ struct Player
     int scrwidth;
     int scrheight;
     int x;
-    int y = 700;
+    int y;
     int xdr;
     int ydr;
     int box_size = 50;
     int dir = 1;
     SDL_Texture* image;
 
-    Player(int _x, int _scrheight, int _scrwidth)
+    Player(int _beginy, int _scrheight, int _scrwidth)
     {
-        x = _scrwidth / 2;
+        x = _scrwidth / 2 - 25;
+        y = _beginy;
         scrheight = _scrheight;
         scrwidth = _scrwidth;
     }

@@ -23,6 +23,8 @@ struct Type3
     bool inside(int minx, int miny, int maxx, int maxy);
 
     void reset();
+
+    bool dead(Player p1);
 };
 
 #endif

@@ -24,6 +24,8 @@ struct Horming
     void horming_move(Player p);
 
     bool inside(int minx, int miny, int maxx, int maxy);
+
+    bool dead(Player p1);
 };
 
 #endif

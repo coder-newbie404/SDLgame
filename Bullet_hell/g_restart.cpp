@@ -17,22 +17,23 @@ SDL_Surface* i_bkmenu = IMG_Load("res/backmenu.png");
 SDL_Surface* i_hover = IMG_Load("res/a.png");
 
 
+
 void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore)
 {
-    TTF_Font* gFont = TTF_OpenFont( "lazy.ttf", 28 );
+    TTF_Font* gFont = TTF_OpenFont( "res/BlackOpsOne-Regular.ttf", 60 );
 
-    Button restart_b(180, 700, 702, 53);
+    Button restart_b(380, 700, 210, 72);
     restart_b.image = SDL_CreateTextureFromSurface(renderer, i_restart);
     Button gexit_b(1350, 700, 210, 72);
     gexit_b.image = SDL_CreateTextureFromSurface(renderer, i_quit);
-    Button bmn(1350, 500, 210, 72);
+    Button bmn(1280, 500, 280, 72);
     bmn.image = SDL_CreateTextureFromSurface(renderer, i_bkmenu);
     SDL_Texture* dea = SDL_CreateTextureFromSurface(renderer, deascene);
     SDL_Texture* atext = SDL_CreateTextureFromSurface(renderer, i_hover);
 
     stringstream timeText;
     LTexture TimeTextTexture(renderer, gFont);
-    SDL_Color textColor = { 0, 0, 0, 255 };
+    SDL_Color textColor = {200, 200, 200, 255};
     timeText.str( "" );
     timeText << "FINAL SCORE:  " << tscore;
     TimeTextTexture.loadFromRenderedText( timeText.str().c_str(), textColor );
@@ -42,7 +43,7 @@ void gameover(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscor
     {
         SDL_RenderClear(renderer);
         rendersub(renderer, dea, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        TimeTextTexture.render( 0, 0);
+        TimeTextTexture.render( 200, 600);
 
         SDL_Event start;
         if (start.type == SDL_MOUSEMOTION)
