@@ -418,11 +418,12 @@
 	"Ltexture.h"
 	"general_helper.h"
 
-1619581712 source:d:\code\codeblock\project\game\bullet_hell\g_running.cpp
+1619589496 source:d:\code\codeblock\project\game\bullet_hell\g_running.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<SDL_vulkan.h>
 	<cstring>
 	<sstream>
@@ -940,11 +941,12 @@
 	"b_normal.h"
 	"o_player.h"
 
-1619253185 source:d:\code\codeblock\project\game\bullet_hell\general_helper.cpp
+1619589690 source:d:\code\codeblock\project\game\bullet_hell\general_helper.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_ttf.h>
 	<SDL_image.h>
+	<SDL_mixer.h>
 	<cstring>
 	<sstream>
 	"general_helper.h"
@@ -1364,6 +1366,15 @@
 
 1547322290 d:\code\codeblock\project\game\bullet_hell\lib\sdl2_devel-2.0.5-mingw.tar\sdl2_ttf-devel-2.0.15-mingw\include\sdl2\sdl_ttf.h
 	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998018 d:\code\codeblock\project\game\bullet_hell\lib\sdl2_devel-2.0.5-mingw.tar\sdl2_mixer-devel-2.0.4-mingw\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
 	"begin_code.h"
 	"close_code.h"
 

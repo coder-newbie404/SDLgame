@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <SDL_vulkan.h>
 #include <cstring>
 #include <sstream>
@@ -36,6 +37,7 @@ SDL_Surface* i_type3 = IMG_Load("res/type3.png");
 void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &tscore)
 {
     TTF_Font* gFont = TTF_OpenFont( "res/BlackOpsOne-Regular.ttf", 28 );
+    Mix_Music *gMusic = Mix_LoadMUS( "res/gunsound.wav" );
 
 
     Button remuse_b(SCREEN_WIDTH - 200, 370, 150, 60);
@@ -127,6 +129,8 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
 
 
     timer.start();
+    if(Mix_PlayMusic(gMusic, -1)==-1)
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
     while (isend == 1)
     {
         if (ispause)
@@ -177,6 +181,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
                     if (pos_x > remuse_b.x && pos_x < remuse_b.x + remuse_b.w && pos_y > remuse_b.y && pos_y < remuse_b.y + remuse_b.h)
                     {
                         timer.unpause();
+                        Mix_ResumeMusic();
                         ispause = false;
                     }
 
@@ -279,6 +284,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
             if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
             {
                 timer.pause();
+                Mix_PauseMusic();
                 ispause = true;
             }
 
@@ -329,6 +335,7 @@ void gamerunning(SDL_Window* window, SDL_Renderer* renderer, int &isend, int &ts
 
             if (endgame)
             {
+                Mix_HaltMusic();
                 isend = 2;
                 tscore = timer.getTicks();
                 timer.stop();
