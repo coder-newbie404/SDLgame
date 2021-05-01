@@ -1,4 +1,5 @@
 tên: Bullet Hell
+
 ý tưởng: game né đạn
 người chơi cố gắng né đạn trong thời gian lớn nhất, càng lâu điểm càng cao
 
